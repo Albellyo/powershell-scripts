@@ -60,13 +60,13 @@ function Create-VM {
 #Define the VM config
 
     $vmConfig = New-AzVMConfig -VMName $vmName -VMSize $vmSize |
-        Set-AzVMOperatingSystem -Windows -ComputerName $vmName -Credential (New-Object PSCredential($adminUsername, $adminPassword)) |
-        Set-AzVMSourceImage -PublisherName $imagePublisher -Offer $imageOffer -Skus $imageSku -Version latest |
-        Add-AzVMNetworkInterface -Id (New-AzNetworkInterface -ResourceGroupName $resourceGroupName -Name "${vmName}Nic" -Location $location -SubnetId (Get-AzVirtualNetworkSubnetConfig -VirtualNetwork (New-AzVirtualNetwork -Name "${vmName}Vnet" -ResourceGroupName $resourceGroupName -Location $location -AddressPrefix "10.0.0.0/16" | Add-AzVirtualNetworkSubnetConfig -Name 'default' -AddressPrefix "10.0.0.0/24" | Set-AzVirtualNetwork).Subnets[0].Id) -PublicIpAddressId (New-AzPublicIpAddress -Name "${vmName}Ip" -ResourceGroupName $resourceGroupName -Location $location -AllocationMethod Dynamic).Id).Id
+    Set-AzVMOperatingSystem -Windows -ComputerName $vmName -Credential (New-Object PSCredential($adminUsername, $adminPassword)) |
+    Set-AzVMSourceImage -PublisherName $imagePublisher -Offer $imageOffer -Skus $imageSku -Version "latest" |
+    Add-AzVMNetworkInterface -Id $nic.Id
 
-        #Create the VM
-        New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vmConfig
-        Write-Host "Virtual Machine $vmName has been created."
+    #Create the VM
+    New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vmConfig
+    Write-Host "Virtual Machine $vmName has been created."
 
 }
 
