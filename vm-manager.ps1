@@ -90,6 +90,12 @@ function Deallocate {
     Write-Host "Virtual Machine $vmName has been deallocated."
 }
 
+function Delete-ResourceGroup {
+    Write-Host "Deleting the resource group... $resourceGroupName"
+    Remove-AzResourceGroup -Name $resourceGroupName -Force
+    Write-Host "Resource Group $resourceGroupName has been deleted."
+}
+
 #menu for operations
 function Main-Menu {
     $option = $null
@@ -98,14 +104,16 @@ function Main-Menu {
         Write-Host "2. Start the VM"
         Write-Host "3. Stop the VM"
         Write-Host "4. Deallocate the VM"
-        Write-Host "5. Exit"
+        Write-Host "5. Delete the resource group"
+        Write-Host "6. Exit"
         $option = Read-Host "Select an option"
         switch ($option) {
             1 { Create-VM }
             2 { Start-VM }
             3 { Stop-VM }
             4 { Deallocate }
-            5 { break }
+            5 { Delete-ResourceGroup }
+            6 { break }
             default { Write-Host "Invalid option. Please try again." }
         }
     }
