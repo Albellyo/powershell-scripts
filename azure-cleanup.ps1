@@ -11,6 +11,7 @@ Select-AzSubscription -SubscriptionId $subscriptionId
 $resourceGroups = Get-AzResourceGroup
 
 #interate through each resource group
+
 foreach ($rg in $resourceGroups){
     Write-Host "Checking resource group: $($rg.ResourceGroupName)"
 
@@ -25,6 +26,7 @@ foreach ($rg in $resourceGroups){
                 Remove-AzVM -ResourceGroupName $rg.ResourceGroupName -Name $vm.Name -Force
             }
     }
+}
     #identify unattached disks
     $disks = Get-AzDisk -ResourceGroupName $rg.ResourceGroupName
     foreach ($disk in $disks){
