@@ -55,7 +55,7 @@ foreach ($rg in $resourceGroups){
 
     #identify unused network interfaces (deallocated)
     $nics = Get-AzNetworkInterface -ResourceGroupName $rg.ResourceGroupName
-    foreach ($nic in nics){
+    foreach ($nic in $nics){
         if ($nics.VirtualMachine -eq $null){
             #check and confirm by typing "YES" to delete the network interface
             $response = Read-Host "Delete Network Interface: $($nic.Name)? (YES/NO)"
