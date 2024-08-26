@@ -1,3 +1,5 @@
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 # Install Az module if not already installed
 if (-not (Get-Module -ListAvailable -Name Az)) {
     Install-Module -Name Az -AllowClobber -Force
