@@ -49,11 +49,13 @@ powershell
 Copy code
 Connect-AzAccount
 Usage
+
+
 Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/yourusername/azure-powershell-scripts.git
+git clone https://github.com/Albellyo/powershell-scripts.git
 cd azure-powershell-scripts
 Ensure that you have proper credentials and permissions for Azure services.
 
