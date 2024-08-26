@@ -37,6 +37,26 @@ function Create-VM {
 
     Write-Host "Creating a new VM... $vmName"
 
+    # Create the virtual network
+    $vnet = New-AzVirtualNetwork -Name "${vmName}Vnet" -ResourceGroupName $resourceGroupName -Location $location -AddressPrefix "10.0.0.0/16" -Subnet @(New-AzVirtualNetworkSubnetConfig -Name 'default' -AddressPrefix "10.0.0.0/24")
+
+    if ($null -eq $vnet) {
+        Write-Host "Failed to create Virtual Network."
+        return
+    }
+    
+    Write-Host "Virtual Network created successfully."
+
+    # Create Network Interface
+    $nic = New-AzNetworkInterface -Name "${vmName}Nic" -ResourceGroupName $resourceGroupName -Location $location -SubnetId $vnet.Subnets[0].Id -PublicIpAddressId (New-AzPublicIpAddress -Name "${vmName}Ip" -ResourceGroupName $resourceGroupName -Location $location -AllocationMethod Static).Id
+
+    if ($null -eq $nic) {
+        Write-Host "Failed to create Network Interface."
+        return
+    }
+
+    Write-Host "Network Interface created successfully."
+
 #Define the VM config
 
     $vmConfig = New-AzVMConfig -VMName $vmName -VMSize $vmSize |
