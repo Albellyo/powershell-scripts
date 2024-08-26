@@ -3,7 +3,13 @@ if (-not (Get-Module -ListAvailable -Name Az)) {
     Install-Module -Name Az -AllowClobber -Force
 }
 
-Connect-AzAccount
+
+# Connect to Azure and capture the output
+$output = Connect-AzAccount -UseDeviceAuthentication -ErrorAction Stop
+$deviceCode = ($output | Select-String -Pattern 'code\s+\w+' | ForEach-Object { ($_ -split ' ')[1] }).Trim()
+# Display only the code
+$deviceCode
+
 
 #Set azure variables
 
